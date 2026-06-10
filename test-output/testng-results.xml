@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+<testng-results ignored="19" total="20" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-05-13T11:10:40 EDT" name="Default suite" finished-at="2026-05-13T11:10:46 EDT" duration-ms="5525">
+  <suite started-at="2026-06-10T14:17:17 EDT" name="Default suite" finished-at="2026-06-10T14:17:41 EDT" duration-ms="24569">
     <groups>
     </groups>
-    <test started-at="2026-05-13T11:10:40 EDT" name="Default test" finished-at="2026-05-13T11:10:46 EDT" duration-ms="5525">
-      <class name="projectAutomationScripts.TC_RF_013">
-        <test-method signature="verifyAcctRegistryPageForPlaceHolders()[pri:0, instance:projectAutomationScripts.TC_RF_013@6302bbb1]" started-at="2026-05-13T11:10:41 EDT" name="verifyAcctRegistryPageForPlaceHolders" finished-at="2026-05-13T11:10:46 EDT" duration-ms="5493" status="PASS">
+    <test started-at="2026-06-10T14:17:17 EDT" name="Default test" finished-at="2026-06-10T14:17:41 EDT" duration-ms="24569">
+      <class name="projectAutomationScripts.RegisterFunctionality">
+        <test-method is-config="true" signature="registerPageNavigation()[pri:0, instance:projectAutomationScripts.RegisterFunctionality@c730b35]" started-at="2026-06-10T14:17:17 EDT" name="registerPageNavigation" finished-at="2026-06-10T14:17:39 EDT" duration-ms="21733" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- verifyAcctRegistryPageForPlaceHolders -->
-      </class> <!-- projectAutomationScripts.TC_RF_013 -->
+        </test-method> <!-- registerPageNavigation -->
+        <test-method signature="differntWaysToRegisterUserAccount()[pri:0, instance:projectAutomationScripts.RegisterFunctionality@c730b35]" started-at="2026-06-10T14:17:39 EDT" name="differntWaysToRegisterUserAccount" finished-at="2026-06-10T14:17:41 EDT" duration-ms="2172" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- differntWaysToRegisterUserAccount -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:projectAutomationScripts.RegisterFunctionality@c730b35]" started-at="2026-06-10T14:17:41 EDT" name="tearDown" finished-at="2026-06-10T14:17:41 EDT" duration-ms="620" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- projectAutomationScripts.RegisterFunctionality -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

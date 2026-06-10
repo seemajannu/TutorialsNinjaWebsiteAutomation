@@ -1,4 +1,4 @@
-package projectAutomationScripts;
+package sandbox;
 
 import java.time.Duration;
 
@@ -10,7 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import commonUtilities.BrandNewEmail;
+import commonUtilities.EssentialFunctions;
 
 public class TC_RF_012 {
 	/*This test case registers user account with keyboard keys*/
@@ -30,7 +30,7 @@ public class TC_RF_012 {
 	 driver.findElement(By.linkText("Register")).click();
 	 keyboardClicks(23);
 	 Thread.sleep(2000); 
-	 act.sendKeys("skj").sendKeys(Keys.TAB).sendKeys("ja").sendKeys(Keys.TAB).sendKeys(BrandNewEmail.generateEmail()).sendKeys(Keys.TAB).sendKeys("12345").sendKeys(Keys.TAB).sendKeys("1234").sendKeys(Keys.TAB).sendKeys("1234").sendKeys(Keys.TAB).build().perform();
+	 act.sendKeys("skj").sendKeys(Keys.TAB).sendKeys("ja").sendKeys(Keys.TAB).sendKeys(EssentialFunctions.generateEmail()).sendKeys(Keys.TAB).sendKeys("12345").sendKeys(Keys.TAB).sendKeys("1234").sendKeys(Keys.TAB).sendKeys("1234").sendKeys(Keys.TAB).build().perform();
 	 keyboardClicks(2);
 	 Thread.sleep(3000);
 	 act.sendKeys(Keys.SPACE).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
