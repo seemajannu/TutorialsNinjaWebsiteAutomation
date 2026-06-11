@@ -24,22 +24,20 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import commonUtilities.EssentialFunctions;
-<<<<<<< HEAD
+
 import pagesOfQaFox.AccountSuccessPage;
 import pagesOfQaFox.LandingPage;
 import pagesOfQaFox.RegisterAccountPage;
-=======
->>>>>>> 457bfdfe368d940af2c6469c83e2eeff1265a557
+
 
 public class RegisterFunctionality {
 	WebDriver driver;
 	Actions act;
-<<<<<<< HEAD
+
 	RegisterAccountPage regacct;
 	AccountSuccessPage actsucpg;
 	LandingPage landpage;
-=======
->>>>>>> 457bfdfe368d940af2c6469c83e2eeff1265a557
+
 
 	@BeforeMethod
 	public void registerPageNavigation() throws IOException {
@@ -53,15 +51,15 @@ public class RegisterFunctionality {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 		driver.get(EssentialFunctions.PropertyReaderForQAfox("testUrl"));
-<<<<<<< HEAD
+
 		landpage=new LandingPage(driver);
 		landpage.acctMenuClick();
 		landpage.regOptionSelect();
 		regacct=new RegisterAccountPage(driver);
-=======
+
 		driver.findElement(By.xpath("//span[text()='My Account']")).click();
 		driver.findElement(By.linkText("Register")).click();
->>>>>>> 457bfdfe368d940af2c6469c83e2eeff1265a557
+
 	}
 
 	@AfterMethod
@@ -73,7 +71,7 @@ public class RegisterFunctionality {
 	@Test(priority = 1)
 	public void verifyRegistrationByMandatory() throws IOException {
 
-<<<<<<< HEAD
+
 		regacct.enterInputFirstNameBox(EssentialFunctions.PropertyReaderForQAfox("firstName"));
 		regacct.enterInputLastNameBox(EssentialFunctions.PropertyReaderForQAfox("lastName"));		
 		regacct.enterInputEmailBox(EssentialFunctions.generateEmail());
@@ -91,7 +89,7 @@ public class RegisterFunctionality {
 
 	/*
 	 *Pending----this is similar to TC 1> This test registers an account with valid details and goes to account success
-=======
+
 		driver.findElement(By.id("input-firstname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("firstName"));
 		driver.findElement(By.id("input-lastname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("lastName"));
 		driver.findElement(By.id("input-email")).sendKeys(EssentialFunctions.generateEmail());
@@ -104,11 +102,11 @@ public class RegisterFunctionality {
 		String expectedacctsuccessstring = "Your Account Has Been Created!";
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='content']//h1")).getText(),
 				expectedacctsuccessstring);
-	}
+	}*/
 
 	/*
 	 * This test registers an account with valid details and goes to account success
->>>>>>> 457bfdfe368d940af2c6469c83e2eeff1265a557
+
 	 * page .Then navigates to further page and verifies if its on Account page
 	 */
 	@Test(priority = 3)
@@ -141,21 +139,21 @@ public class RegisterFunctionality {
 		String expectedTelephoneMsg="Telephone must be between 3 and 32 characters!";
 		String expectedPswdMsg="Password must be between 4 and 20 characters!";
 		
-<<<<<<< HEAD
+
 		regacct.continuebuttonClickOnRegisterPage();
 		Assert.assertEquals(regacct.firstNameErrorNotification(), expectedFirstNameMsg);
 		Assert.assertEquals(regacct.lastNameErrorNotification(), expectedLastNameMsg);
-		Assert.assertEquals(regadriver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='email' and @name='email']/following-sibling::div")).getText(), expectedEmailMsg);
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='email' and @name='email']/following-sibling::div")).getText(), expectedEmailMsg);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='tel' and @name='telephone']/following-sibling::div")).getText(), expectedTelephoneMsg);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='password' and @name='password']/following-sibling::div")).getText(), expectedPswdMsg);
-=======
+
 		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedFirstNameMsg);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='lastname']/following-sibling::div")).getText(), expectedLastNameMsg);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedEmailMsg);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedTelephoneMsg);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedPswdMsg);
->>>>>>> 457bfdfe368d940af2c6469c83e2eeff1265a557
+
 		
 		
 	}
