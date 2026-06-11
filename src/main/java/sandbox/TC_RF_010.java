@@ -1,4 +1,4 @@
-package projectAutomationScripts;
+package sandbox;
 
 import java.time.Duration;
 
