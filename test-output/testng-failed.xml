@@ -6,8 +6,8 @@
       <class name="projectAutomationScripts.RegisterFunctionality">
         <methods>
           <include name="registerPageNavigation"/>
+          <include name="errorOnPasswordAndConfirmPasswordMismatchOnRegPage"/>
           <include name="tearDown"/>
-          <include name="verifyRegistrationByMandatory"/>
         </methods>
       </class> <!-- projectAutomationScripts.RegisterFunctionality -->
     </classes>

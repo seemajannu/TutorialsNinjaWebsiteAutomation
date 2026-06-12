@@ -24,10 +24,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import commonUtilities.EssentialFunctions;
-
+import pagesOfQaFox.AccountLoginPage;
 import pagesOfQaFox.AccountSuccessPage;
 import pagesOfQaFox.LandingPage;
+import pagesOfQaFox.MyAccountPage;
+import pagesOfQaFox.NewsLetterPage;
 import pagesOfQaFox.RegisterAccountPage;
+import pagesOfQaFox.RightColumnPage;
 
 
 public class RegisterFunctionality {
@@ -37,6 +40,10 @@ public class RegisterFunctionality {
 	RegisterAccountPage regacct;
 	AccountSuccessPage actsucpg;
 	LandingPage landpage;
+	MyAccountPage myactpg;
+	NewsLetterPage nwspg;
+	AccountLoginPage actlgpg;
+	RightColumnPage rgtclpg;
 
 
 	@BeforeMethod
@@ -55,12 +62,9 @@ public class RegisterFunctionality {
 		landpage=new LandingPage(driver);
 		landpage.acctMenuClick();
 		landpage.regOptionSelect();
-		regacct=new RegisterAccountPage(driver);
+		regacct=new RegisterAccountPage(landpage.getPageDriver());
 
-		driver.findElement(By.xpath("//span[text()='My Account']")).click();
-		driver.findElement(By.linkText("Register")).click();
-
-	}
+		}
 
 	@AfterMethod
 	public void tearDown() {
@@ -85,47 +89,29 @@ public class RegisterFunctionality {
 		String expectedacctsuccessstring = "Your Account Has Been Created!";
 		Assert.assertEquals(actsucpg.successpageContent(),expectedacctsuccessstring);
 	}
+
 	
-
-	/*
-	 *Pending----this is similar to TC 1> This test registers an account with valid details and goes to account success
-
-		driver.findElement(By.id("input-firstname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("firstName"));
-		driver.findElement(By.id("input-lastname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("lastName"));
-		driver.findElement(By.id("input-email")).sendKeys(EssentialFunctions.generateEmail());
-		driver.findElement(By.id("input-telephone")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
-		driver.findElement(By.id("input-password")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
-		driver.findElement(By.id("input-confirm")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
-		driver.findElement(By.xpath("//input[@name='newsletter'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@type='checkbox'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();
-		String expectedacctsuccessstring = "Your Account Has Been Created!";
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='content']//h1")).getText(),
-				expectedacctsuccessstring);
-	}*/
-
 	/*
 	 * This test registers an account with valid details and goes to account success
-
 	 * page .Then navigates to further page and verifies if its on Account page
 	 */
 	@Test(priority = 3)
 	public void verifyRegistrationWithAllAcctDetails() throws IOException {
-		driver.findElement(By.id("input-firstname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("firstName"));
-		driver.findElement(By.id("input-lastname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("lastName"));
-		driver.findElement(By.id("input-email")).sendKeys(EssentialFunctions.generateEmail());
-		driver.findElement(By.id("input-telephone")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
-		driver.findElement(By.id("input-password")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword")	);
-		driver.findElement(By.id("input-confirm")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
-		driver.findElement(By.xpath("//input[@name='newsletter'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@name='agree'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();
-
-		String successfullmessexpected = "Your Account Has Been Created!";
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='content']//h1")).getText(),
-				successfullmessexpected);
-		driver.findElement(By.linkText("Continue")).click();
-		Assert.assertTrue(driver.findElement(By.linkText("Account")).isDisplayed());
+		
+		regacct.enterInputFirstNameBox(EssentialFunctions.PropertyReaderForQAfox("firstName"));
+		regacct.enterInputLastNameBox(EssentialFunctions.PropertyReaderForQAfox("lastName"));		
+		regacct.enterInputEmailBox(EssentialFunctions.generateEmail());
+		regacct.enterInputTelephoneBox(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
+		regacct.enterInputValidPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterInputConfirmPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterNewsLetterBox(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.enterPrivacyPolicyField(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.continuebuttonClickOnRegisterPage();		
+		actsucpg=new AccountSuccessPage(regacct.getPageDriver());
+		//String successfullmessexpected = "Your Account Has Been Created!";
+		Assert.assertEquals(actsucpg.successpageContent(),EssentialFunctions.PropertyReaderForQAfox("acctSuccessPgContent"));
+		myactpg=new MyAccountPage(actsucpg.getPageDriver());
+		Assert.assertTrue(myactpg.accountBreadCrumbIsDisplayed());
 
 	}
 	
@@ -143,19 +129,10 @@ public class RegisterFunctionality {
 		regacct.continuebuttonClickOnRegisterPage();
 		Assert.assertEquals(regacct.firstNameErrorNotification(), expectedFirstNameMsg);
 		Assert.assertEquals(regacct.lastNameErrorNotification(), expectedLastNameMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='email' and @name='email']/following-sibling::div")).getText(), expectedEmailMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='tel' and @name='telephone']/following-sibling::div")).getText(), expectedTelephoneMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='password' and @name='password']/following-sibling::div")).getText(), expectedPswdMsg);
-
-		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedFirstNameMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='lastname']/following-sibling::div")).getText(), expectedLastNameMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedEmailMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedTelephoneMsg);
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")).getText(), expectedPswdMsg);
-
-		
-		
+		Assert.assertEquals(regacct.emailErrorNotification(), expectedEmailMsg);
+		Assert.assertEquals(regacct.telphErrorNotification(), expectedTelephoneMsg);
+		Assert.assertEquals(regacct.inPswdErrorNotification(), expectedPswdMsg);
+			
 	}
 	
 
@@ -163,64 +140,75 @@ public class RegisterFunctionality {
 	@Test(priority=5)
 	public void newsletterYesOptionOnNewsletterPage() throws IOException
 	{
-		driver.findElement(By.id("input-firstname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("firstName"));
-		driver.findElement(By.id("input-lastname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("lastName"));
-		driver.findElement(By.id("input-email")).sendKeys(EssentialFunctions.generateEmail());
-		driver.findElement(By.id("input-telephone")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
-		driver.findElement(By.id("input-password")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword")	);
-		driver.findElement(By.id("input-confirm")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
-		driver.findElement(By.xpath("//input[@name='newsletter'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@name='agree'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();
+		regacct.enterInputFirstNameBox(EssentialFunctions.PropertyReaderForQAfox("firstName"));
+		regacct.enterInputLastNameBox(EssentialFunctions.PropertyReaderForQAfox("lastName"));		
+		regacct.enterInputEmailBox(EssentialFunctions.generateEmail());
+		regacct.enterInputTelephoneBox(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
+		regacct.enterInputValidPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterInputConfirmPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterNewsLetterBox(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.enterPrivacyPolicyField(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.continuebuttonClickOnRegisterPage();
 		//Navigates to account success page
-		driver.findElement(By.xpath("//div[@class='buttons']//a[text()='Continue']")).click();
+		actsucpg=new AccountSuccessPage(regacct.getPageDriver());
+		actsucpg.successPageContinueClick();
 		//navigates to My account page
-		driver.findElement(By.xpath("//ul[@class='list-unstyled']/li/a[text()='Subscribe / unsubscribe to newsletter']")).click();
+		myactpg=new MyAccountPage(actsucpg.getPageDriver());
+		myactpg.subUnsubNewsLetterMenuClick();		
 		//Navigates to newsletter subscription page
-		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='col-sm-10']//input[@type='radio' and @value='1']")).isSelected());
-		
-		
+		nwspg=new NewsLetterPage(myactpg.getPageDriver());		
+		Assert.assertTrue(nwspg.newLetterSubscriptionRadioBtnSelection("yes"));				
 	}
 	
 	/*This test verifies if No newsletter option is selected as No for newsletterfield on newsletter  page*/
 	@Test(priority=6)
 	public void newsletterNoOptionOnNewsletterPage() throws IOException
-	{
-		driver.findElement(By.id("input-firstname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("firstName"));
-		driver.findElement(By.id("input-lastname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("lastName"));
-		driver.findElement(By.id("input-email")).sendKeys(EssentialFunctions.generateEmail());
-		driver.findElement(By.id("input-telephone")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
-		driver.findElement(By.id("input-password")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword")	);
-		driver.findElement(By.id("input-confirm")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
-		driver.findElement(By.xpath("//input[@name='newsletter'][@value='0']")).click();
-		driver.findElement(By.xpath("//input[@name='agree'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();
+	{		
+		regacct.enterInputFirstNameBox(EssentialFunctions.PropertyReaderForQAfox("firstName"));
+		regacct.enterInputLastNameBox(EssentialFunctions.PropertyReaderForQAfox("lastName"));		
+		regacct.enterInputEmailBox(EssentialFunctions.generateEmail());
+		regacct.enterInputTelephoneBox(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
+		regacct.enterInputValidPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterInputConfirmPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterNewsLetterBox(EssentialFunctions.PropertyReaderForQAfox("inputAsNo"));
+		regacct.enterPrivacyPolicyField(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.continuebuttonClickOnRegisterPage();
 		//Navigates to account success page
-		driver.findElement(By.xpath("//div[@class='buttons']//a[text()='Continue']")).click();
+		actsucpg=new AccountSuccessPage(regacct.getPageDriver());
+		actsucpg.successPageContinueClick();
 		//navigates to My account page
-		driver.findElement(By.xpath("//ul[@class='list-unstyled']/li/a[text()='Subscribe / unsubscribe to newsletter']")).click();
+		myactpg=new MyAccountPage(actsucpg.getPageDriver());
+		myactpg.subUnsubNewsLetterMenuClick();		
 		//Navigates to newsletter subscription page
-		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='col-sm-10']//input[@type='radio' and @value='0']")).isSelected());	
-		
+		nwspg=new NewsLetterPage(myactpg.getPageDriver());		
+		Assert.assertTrue(nwspg.newLetterSubscriptionRadioBtnSelection("no"));				
 	}
+	
+	
 	/*This test verifies different ways to register an account*/
 	@Test(priority=7)
 	public void differntWaysToRegisterUserAccount()
 	{
 		//My account->Register
-		Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//li/a[text()='Register']")).isDisplayed());
-		
+		Assert.assertTrue(regacct.registerPageBreadcrumbIsDisplayed());	
+	
 		//My account->Login->New Customer(continue)
-		driver.findElement(By.xpath("//span[text()='My Account']")).click();
-		driver.findElement(By.linkText("Login")).click();
-		driver.findElement(By.xpath("//a[@class='btn btn-primary' and text()='Continue']")).click();
-		Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//li/a[text()='Register']")).isDisplayed());
+		landpage=new LandingPage(regacct.getPageDriver());
+		landpage.acctMenuClick();
+		landpage.loginMenuClick();	
+		actlgpg=new AccountLoginPage(landpage.getPageDriver());
+		actlgpg.newCustomerContinueBtnClick();	
+		regacct=new RegisterAccountPage(actlgpg.getPageDriver());
+		Assert.assertTrue(regacct.registerPageBreadcrumbIsDisplayed());
 		
 		//My account->Login->Register(on right column)
-		driver.findElement(By.xpath("//span[text()='My Account']")).click();
-		driver.findElement(By.linkText("Login")).click();
-		driver.findElement(By.xpath("//div[@class='list-group']//a[text()='Register']")).click();
-		Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//li/a[text()='Register']")).isDisplayed());
+		landpage=new LandingPage(regacct.getPageDriver());
+		landpage.acctMenuClick();
+		landpage.loginMenuClick();
+		rgtclpg=new RightColumnPage(landpage.getPageDriver());		
+		rgtclpg.registerMenuOptionRightColumClick();
+		regacct=new RegisterAccountPage(rgtclpg.getPageDriver());
+		Assert.assertTrue(regacct.registerPageBreadcrumbIsDisplayed());
 	}
 	
 	
@@ -228,15 +216,16 @@ public class RegisterFunctionality {
 	@Test(priority=8)
 	public void errorOnPasswordAndConfirmPasswordMismatchOnRegPage () throws IOException
 	{
-		driver.findElement(By.id("input-firstname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("firstName"));
-		driver.findElement(By.id("input-lastname")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("lastName"));
-		driver.findElement(By.id("input-email")).sendKeys(EssentialFunctions.generateEmail());
-		driver.findElement(By.id("input-telephone")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
-		driver.findElement(By.id("input-password")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("validPassword")	);
-		driver.findElement(By.id("input-confirm")).sendKeys(EssentialFunctions.PropertyReaderForQAfox("invalidPassword"));
-		driver.findElement(By.xpath("//input[@name='newsletter'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@name='agree'][@value='1']")).click();
-		driver.findElement(By.xpath("//input[@type='submit'][@value='Continue']")).click();	
+		regacct.enterInputFirstNameBox(EssentialFunctions.PropertyReaderForQAfox("firstName"));
+		regacct.enterInputLastNameBox(EssentialFunctions.PropertyReaderForQAfox("lastName"));		
+		regacct.enterInputEmailBox(EssentialFunctions.generateEmail());
+		regacct.enterInputTelephoneBox(EssentialFunctions.PropertyReaderForQAfox("telephoneNumber"));
+		regacct.enterInputValidPswdBox(EssentialFunctions.PropertyReaderForQAfox("validPassword"));
+		regacct.enterInputConfirmPswdBox(EssentialFunctions.PropertyReaderForQAfox("invalidPassword"));
+		regacct.enterNewsLetterBox(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.enterPrivacyPolicyField(EssentialFunctions.PropertyReaderForQAfox("inputAsYes"));
+		regacct.continuebuttonClickOnRegisterPage();
+		Assert.assertEquals(regacct.pswdConfirmErrorDisplayOnMismatch(),"Password confirmation does not match password!");
 		
 	}
 	

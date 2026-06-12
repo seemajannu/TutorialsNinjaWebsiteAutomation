@@ -5,11 +5,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class RegisterAccountPage {
+import baseClass.CommonBaseClass;
+
+public class RegisterAccountPage extends CommonBaseClass{
 	WebDriver driver;
 	
 	public RegisterAccountPage(WebDriver driver)
 	{
+		super(driver);
 		this.driver=driver;
 		PageFactory.initElements(driver, this);
 	}
@@ -48,6 +51,10 @@ public class RegisterAccountPage {
 	@FindBy(xpath="//input[@type='submit'][@value='Continue']")
 	private WebElement continueButtonOnRegisterPage;
 	
+	@FindBy(xpath="//div[@class='text-danger'][text()='Password confirmation does not match password!']")
+	private WebElement pswdConfirmMismatchErrorDisp;	
+	
+	
 	@FindBy(xpath="//div[@class='form-group required has-error']//input[@type='text' and @name='firstname']/following-sibling::div")
 	private WebElement firstNameNotifaction;
 	
@@ -57,10 +64,38 @@ public class RegisterAccountPage {
     @FindBy(xpath="//div[@class='form-group required has-error']//input[@type='email' and @name='email']/following-sibling::div")
 	private WebElement emailNotification;
     
+    @FindBy(xpath="//div[@class='form-group required has-error']//input[@type='tel' and @name='telephone']/following-sibling::div")
+    private WebElement telpNotification;
+    
+    @FindBy(xpath="//div[@class='form-group required has-error']//input[@type='password' and @name='password']/following-sibling::div")
+    private WebElement inPswdNotification;
+    
+    @FindBy(xpath="//ul[@class='breadcrumb']//li/a[text()='Register']")
+    private WebElement registerPageBreadcrumb;
+    
+    public String pswdConfirmErrorDisplayOnMismatch()
+    {
+    	return pswdConfirmMismatchErrorDisp.getText();
+    }
+    
+    public boolean registerPageBreadcrumbIsDisplayed()
+    {
+    	return registerPageBreadcrumb.isDisplayed();
+    }
+    
+    public String inPswdErrorNotification()
+    {
+    	return inPswdNotification.getText();
+    }
+    
+    public String telphErrorNotification()
+    {
+    	return telpNotification.getText();
+    }
+    
     public String emailErrorNotification()
     {
-    	return emailNotification.getText();
-    	
+    	return emailNotification.getText();    	
     }	
 	
 	public String lastNameErrorNotification()
